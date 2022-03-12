@@ -9,6 +9,9 @@ teaminfo <- read.csv("teaminfo.csv")
 g <- !(teaminfo$Gender %in% c("Male", "Female", "Nonbinary"))
 teaminfo$Gender[g] <- "Other"
 
+## Data for Event DC306 (3/6/2022): https://docs.google.com/spreadsheets/d/1gGekBB92K-NU-nrTIQ2Gt3FhzLvs0LguhGsg8bORkI4/edit#gid=956466144
+dc306 <- read_tsv("DC306.tsv") %>% mutate(`Calculated Cargo` = `Avg Match` - `Avg Hangar` - `Avg Taxi + Auto Cargo`)
+
 # Dollar Comparison
 amt <- purchases %>% group_by(Source) %>% summarize(price = sum(parse_number(Total)))  # Exact Values
 amt %>% ggplot() + geom_col(aes(x = reorder(Source, price), y = price)) + theme(axis.text.x = element_text(angle = 90)) + xlab("Source") + ggtitle("Amount (in dollars) bought from multiple sellers during the 2019-2020 year")
@@ -45,3 +48,6 @@ d %>% ggplot(aes(Grade, ct)) + geom_col() + ylab("Count") + ggtitle("Grade Dispa
 
 # People per sub team
 data.frame(subteams = c("Awards", "Outreach", "Media/Public Relations", "Imagery", "Safety", "Programming", "Electrical", "Mechanical", "Finance", "CAD", "Strat/Scouting") , count = c(2,11,9,13,5,23,22,33,14,10,5)) %>% ggplot(aes(reorder(subteams, count), count)) + geom_col() + theme(axis.text.x = element_text(angle = 90)) + xlab("Subteam") + ggtitle("The Number of People in each Subteam")
+
+# Point Breakdown by Team during Teleop (DC306)
+ggplot(dc306, aes(`Calculated Cargo`, `Avg Hangar`, label = Team)) + geom_point(aes(color = Rank <= 5)) + geom_text(hjust = -0.25, vjust = 1) + theme_bw() + xlab("Average Cargo Points") + ylab("Average Hangar Points") + ggtitle("Comparison of Point Breakdown during Teleop by Team")
