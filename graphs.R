@@ -12,6 +12,9 @@ teaminfo$Gender[g] <- "Other"
 ## Data for Event DC306 (3/6/2022): https://docs.google.com/spreadsheets/d/1gGekBB92K-NU-nrTIQ2Gt3FhzLvs0LguhGsg8bORkI4/edit#gid=956466144
 dc306 <- read_tsv("DC306.tsv") %>% mutate(`Calculated Cargo` = `Avg Match` - `Avg Hangar` - `Avg Taxi + Auto Cargo`)
 
+## Data for events with data on 3/22
+all <- read_tsv("all.tsv")
+
 # Dollar Comparison
 amt <- purchases %>% group_by(Source) %>% summarize(price = sum(parse_number(Total)))  # Exact Values
 amt %>% ggplot() + geom_col(aes(x = reorder(Source, price), y = price)) + theme(axis.text.x = element_text(angle = 90)) + xlab("Source") + ggtitle("Amount (in dollars) bought from multiple sellers during the 2019-2020 year")
@@ -51,3 +54,6 @@ data.frame(subteams = c("Awards", "Outreach", "Media/Public Relations", "Imagery
 
 # Point Breakdown by Team during Teleop (DC306)
 ggplot(dc306, aes(`Calculated Cargo`, `Avg Hangar`, label = Team)) + geom_point(aes(color = Rank <= 5)) + geom_text(hjust = -0.25, vjust = 1) + theme_bw() + xlab("Average Cargo Points") + ylab("Average Hangar Points") + ggtitle("Comparison of Point Breakdown during Teleop by Team")
+
+# Match Points vs Ranking Point for all teams (2022)
+all %>% ggplot() + geom_point(aes(`Avg Match`, `Total Ranking Points*`, color = `Team` != 5549)) + ggtitle("The Correlation between Match Points Scored and Ranking Points Recieved") + xlab("Average Match Points Scored") + ylab("Total Ranking Points Recieved")
