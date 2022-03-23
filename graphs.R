@@ -61,3 +61,6 @@ all %>% ggplot() + geom_point(aes(`Avg Match`, `Total Ranking Points*`, color = 
 # Box plot for teams' average match score
 matchscore5549 <- ((all %>% filter(`Team` == 5549))$`Avg Match`)[1]
 all %>% ggplot() + geom_boxplot(aes(0, `Avg Match`), width=0.4) + xlim(-1, 1) + geom_hline(aes(yintercept = matchscore5549, color = "red")) + ggtitle("Boxplot of Match Scores for Virginia") + xlab("") + ylab("Average Match Score")
+
+# Density plot for teams' average match score
+all %>% ggplot(aes(`Avg Match`)) + geom_density(alpha = 0.25, fill = "blue") + geom_vline(xintercept = matchscore5549, color = "red") + geom_vline(xintercept = mean(all$`Avg Match`)) + ggtitle("Distribution of Match Scores in Virginia") + xlab("Average Match Score")
