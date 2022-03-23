@@ -64,3 +64,6 @@ all %>% ggplot() + geom_boxplot(aes(0, `Avg Match`), width=0.4) + xlim(-1, 1) + 
 
 # Density plot for teams' average match score
 all %>% ggplot(aes(`Avg Match`)) + geom_density(alpha = 0.25, fill = "blue") + geom_vline(xintercept = matchscore5549, color = "red") + geom_vline(xintercept = mean(all$`Avg Match`)) + ggtitle("Distribution of Match Scores in Virginia") + xlab("Average Match Score")
+
+# Map of teleop and auton scores
+all %>% mutate(Teleop = `Avg Match` - `Avg Taxi + Auto Cargo`) %>% ggplot() + geom_point(aes(Teleop, `Avg Taxi + Auto Cargo`, color = Team != 5549)) + geom_hline(yintercept = mean(all$`Avg Taxi + Auto Cargo`)) + geom_vline(aes(xintercept = mean(Teleop))) + ggtitle("Comparison of Auton and Teleop Periods for All Teams") + xlab("Teleop Points") + ylab("Auton Points") + theme_bw()
