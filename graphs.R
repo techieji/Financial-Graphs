@@ -57,3 +57,7 @@ ggplot(dc306, aes(`Calculated Cargo`, `Avg Hangar`, label = Team)) + geom_point(
 
 # Match Points vs Ranking Point for all teams (2022)
 all %>% ggplot() + geom_point(aes(`Avg Match`, `Total Ranking Points*`, color = `Team` != 5549)) + ggtitle("The Correlation between Match Points Scored and Ranking Points Recieved") + xlab("Average Match Points Scored") + ylab("Total Ranking Points Recieved")
+
+# Box plot for teams' average match score
+matchscore5549 <- ((all %>% filter(`Team` == 5549))$`Avg Match`)[1]
+all %>% ggplot() + geom_boxplot(aes(0, `Avg Match`), width=0.4) + xlim(-1, 1) + geom_hline(aes(yintercept = matchscore5549, color = "red")) + ggtitle("Boxplot of Match Scores for Virginia") + xlab("") + ylab("Average Match Score")
