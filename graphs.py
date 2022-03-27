@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from libs import *
+from lib import *
 import itertools as it
 
 s = Session("***********")
